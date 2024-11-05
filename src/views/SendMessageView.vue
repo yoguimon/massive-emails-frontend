@@ -45,7 +45,7 @@
 
         <!-- Seleccionar contactos desde la base de datos -->
         <div v-if="recipientOption === 'database'" class="mb-3">
-        <label class="form-label">Seleccionar contactos</label>
+        <label class="form-label">Seleccionar contactos (Presione Shift y elija los contactos)</label>
         <select class="form-select" multiple v-model="selectedContacts">
             <option v-for="contact in contacts" :key="contact.id" :value="contact.email">
             {{ contact.name }} - {{ contact.email }}
