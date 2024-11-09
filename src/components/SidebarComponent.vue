@@ -1,5 +1,5 @@
 <template>
-    <nav class="bg-dark d-flex flex-column align-items-center p-4 vh-100">
+    <nav class="bg-dark d-flex flex-column align-items-center p-4 vh-100 overflow-auto">
         <a href="#" class="mb-5">
             <img src="../../public/img/logo-email.png" alt="Logo" class="img-fluid" width="50px" height="50px">
         </a>

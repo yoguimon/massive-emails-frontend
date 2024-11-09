@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-4">
+    <div class="container mt-4 mb-5">
         <h2>Enviar Nuevo Mensaje</h2>
         
         <!-- Asunto del mensaje -->
@@ -62,14 +62,15 @@
         </div>
 
         <!-- Botón para enviar el mensaje -->
-        <button type="submit" class="btn btn-primary" @click="sendMessage">Enviar Mensaje</button>
+        <button type="submit" class="btn btn-primary" @click="sendMessage">{{opcion==0?'Enviar Mensaje':'Enviando...'}}<i v-if="opcion==1" class="fas fa-spinner fa-spin ms-2"></i></button>
     </div>
 </template>
 
 <script setup>
-import { getAllContacts } from '@/services/SendMessageService';
+import { getAllContacts, sendEmails } from '@/services/SendMessageService';
 import { onMounted, ref } from 'vue'
-
+import Swal from 'sweetalert2'
+import { useRouter } from 'vue-router';
 // Variables reactivas
 const subject = ref('')
 const message = ref('')
@@ -77,6 +78,8 @@ const recipientOption = ref('') // Opción seleccionada ('file' o 'database')
 const extractedEmails = ref([]) // Correos extraídos del archivo
 const selectedContacts = ref([]) // Correos seleccionados desde la base de datos
 const contactsEmailOnly = ref([]) // muestre los correo de todos los contactos
+const opcion = ref(0);
+const router = useRouter();
 
 // Ejemplo de datos de contactos (desde la base de datos)
 const contacts = ref([]);
@@ -124,15 +127,28 @@ const validateEmail = (email) => {
 }
 
 // Función para enviar el mensaje
-const sendMessage = () => {
+async function sendMessage(){
+    opcion.value=1;
     const payload = {
         user_id: 1,
         subject: subject.value,
         body: message.value,
         emails: recipientOption.value === 'file' ? extractedEmails.value : recipientOption.value === 'allContacts' ? contactsEmailOnly.value : selectedContacts.value
     }
-    console.log('Mensaje a enviar:', payload)
-    // Aquí puedes hacer la solicitud al backend para enviar los datos
+    try {
+        const { data } = await sendEmails(payload);
+        opcion.value=0;
+        Swal.fire({
+            title: "Correos enviados!",
+            icon: "success",
+            iconColor: "#0D6EFD",
+            confirmButtonColor: "#0D6EFD"
+        }).then(() => {
+            router.push({ path: 'dashboard' });
+        });
+    } catch (error) {
+        console.log(error);
+    }
 }
 const contactFormat = () => {
     contacts.value.forEach(element => {

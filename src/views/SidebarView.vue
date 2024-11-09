@@ -1,10 +1,10 @@
 <template>
-    <div class="d-flex">
+    <div class="d-flex vh-100 overflow-hidden">
     <!-- Sidebar -->
     <SidebarComponent />
 
     <!-- Main content area -->
-    <div class="flex-grow-1">
+    <div class="d-flex flex-column flex-grow-1 overflow-auto">
       <!-- Header -->
       <HeaderComponent />
 
