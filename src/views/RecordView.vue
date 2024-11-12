@@ -1,6 +1,6 @@
 <template>
     <div>
-        Historial
+        Historial en proceso...
     </div>
 </template>
 <script>

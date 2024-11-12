@@ -2,20 +2,20 @@
     <div class="mb-5">
         <h1>Dashboard</h1>
     </div>
-    <div class="row">
-        <div class="col-md-6 mb-4">
+    <div class="row justify-content-center">
+        <div class="col-md-5 mb-4">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body text-center m-4">
                     <h5 class="card-title">Mensajes Enviados</h5>
                     <p class="card-text">
-                        <strong>10</strong> mensajes enviados.
+                        <strong>{{ number }}</strong> mensajes enviados.
                     </p>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 mb-4">
+        <div class="col-md-5 mb-4">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body text-center m-3">
                     <h5 class="card-title">Nuevo Mensaje</h5>
                     <p class="card-text">Enviar un nuevo mensaje.</p>
                     <router-link to="/send-message" class="btn btn-primary">Agregar Nuevo Mensaje</router-link>
@@ -24,27 +24,43 @@
         </div>
     </div>
 
-    <div class="mt-4">
-        <h5>Último mensaje enviado</h5>
-        <ul class="list-group">
-        <li class="list-group-item">Asunto: Venta de producto</li>
-        <li class="list-group-item">Fecha: 13/10/2024</li>
-        <li class="list-group-item">Destinatarios: 15</li>
-        </ul>
+    
+    <div class="m-5">
+        <h5>Últimos mensajes enviados</h5>
+        <table class="table table-bordered">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Asunto</th>
+                    <th scope="col">Mensaje</th>
+                    <th scope="col">Destinatarios</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(message, index) in messages">
+                    <td>{{ index+1 }}</td>
+                    <td>{{ message[0] }}</td>
+                    <td>{{ message[1] }}</td>
+                    <td>{{ message[2] }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+    
 </template>
 <script setup>
-import { obtenerMensaje } from '@/services/DashboardService';
+import { getInformation, obtenerMensaje } from '@/services/DashboardService';
 import { onMounted, ref } from 'vue';
-const mensaje = ref("Aqui el mensaje");
+const number = ref(0);
+const messages = ref([]);
 onMounted(()=>{
-    //getMensaje();
+    getDataOfDashboard();
 });
-async function getMensaje() {
+async function getDataOfDashboard() {
     try {
-        const { data } = await obtenerMensaje();
-        mensaje.value = data;
-        console.log(data);
+        const { data } = await getInformation();
+        number.value = data.number;
+        messages.value = data.messages;
     } catch (error) {
         console.log(error);
     }
