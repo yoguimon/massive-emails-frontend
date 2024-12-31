@@ -1,14 +1,14 @@
 <template>
     <div class="d-flex vh-100 overflow-hidden">
-    <!-- Sidebar -->
+    <!-- sidebar -->
     <SidebarComponent />
 
-    <!-- Main content area -->
+    <!--main-->
     <div class="d-flex flex-column flex-grow-1 overflow-auto">
-      <!-- Header -->
+      <!-- header -->
       <HeaderComponent />
 
-      <!-- Dynamic content based on route -->
+      <!--content-->
       <div class="container mt-4">
         <router-view />
       </div>

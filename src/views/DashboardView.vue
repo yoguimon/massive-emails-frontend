@@ -49,7 +49,7 @@
     
 </template>
 <script setup>
-import { getInformation, obtenerMensaje } from '@/services/DashboardService';
+import { getInformation } from '@/services/DashboardService';
 import { onMounted, ref } from 'vue';
 const number = ref(0);
 const messages = ref([]);
