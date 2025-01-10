@@ -123,6 +123,16 @@ const validateEmail = (email) => {
 
 //enviar el mensaje
 async function sendMessage(){
+    if(subject.value===""||message.value===""||recipientOption.value===""){
+        Swal.fire({
+            title: "Completar todos los campos",
+            icon: "warning",
+            iconColor: "#0D6EFD",
+            confirmButtonColor: "#0D6EFD"
+        }).then(() => {
+            return;
+        });
+    }
     opcion.value=1;
     const payload = {
         user_id: 1,
@@ -149,7 +159,7 @@ async function sendMessage(){
             icon: "warning",
             iconColor: "#0D6EFD",
             confirmButtonColor: "#0D6EFD"
-        })
+        });
     }
 }
 //para seleccionar contactos desde la base de datos
