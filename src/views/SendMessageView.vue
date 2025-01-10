@@ -129,38 +129,38 @@ async function sendMessage(){
             icon: "warning",
             iconColor: "#0D6EFD",
             confirmButtonColor: "#0D6EFD"
-        }).then(() => {
-            return;
         });
+    }else{
+        opcion.value=1;
+        const payload = {
+            user_id: 1,
+            subject: subject.value,
+            body: message.value,
+            emails: recipientOption.value === 'file' ? extractedEmails.value : recipientOption.value === 'allContacts' ? contactsEmailOnly.value : selectedContacts.value
+        }
+        try {
+            const { data } = await sendEmails(payload);
+            opcion.value=0;
+            Swal.fire({
+                title: "Correos enviados!",
+                icon: "success",
+                iconColor: "#0D6EFD",
+                confirmButtonColor: "#0D6EFD"
+            }).then(() => {
+                router.push({ path: 'dashboard' });
+            });
+        } catch (error) {
+            console.log(error);
+            opcion.value=0;
+            Swal.fire({
+                title: error.response.data,
+                icon: "warning",
+                iconColor: "#0D6EFD",
+                confirmButtonColor: "#0D6EFD"
+            });
+        }
     }
-    opcion.value=1;
-    const payload = {
-        user_id: 1,
-        subject: subject.value,
-        body: message.value,
-        emails: recipientOption.value === 'file' ? extractedEmails.value : recipientOption.value === 'allContacts' ? contactsEmailOnly.value : selectedContacts.value
-    }
-    try {
-        const { data } = await sendEmails(payload);
-        opcion.value=0;
-        Swal.fire({
-            title: "Correos enviados!",
-            icon: "success",
-            iconColor: "#0D6EFD",
-            confirmButtonColor: "#0D6EFD"
-        }).then(() => {
-            router.push({ path: 'dashboard' });
-        });
-    } catch (error) {
-        console.log(error);
-        opcion.value=0;
-        Swal.fire({
-            title: error.response.data,
-            icon: "warning",
-            iconColor: "#0D6EFD",
-            confirmButtonColor: "#0D6EFD"
-        });
-    }
+    
 }
 //para seleccionar contactos desde la base de datos
 const contactFormat = () => {
