@@ -143,6 +143,13 @@ async function sendMessage(){
         });
     } catch (error) {
         console.log(error);
+        opcion.value=0;
+        Swal.fire({
+            title: error.response.data,
+            icon: "warning",
+            iconColor: "#0D6EFD",
+            confirmButtonColor: "#0D6EFD"
+        })
     }
 }
 //para seleccionar contactos desde la base de datos
