@@ -49,12 +49,19 @@
     
 </template>
 <script setup>
+import Swal from 'sweetalert2'
 import { getInformation } from '@/services/DashboardService';
 import { onMounted, ref } from 'vue';
 const number = ref(0);
 const messages = ref([]);
 onMounted(()=>{
     getDataOfDashboard();
+    Swal.fire({
+        title: "Es posible que la carga de datos sea lenta, ya que tanto el backend, el frontend como la base de datos están alojados en servidores gratuitos y sus recursos son limitados. ¡Gracias por tu comprensión!",
+        icon: "warning",
+        iconColor: "#0D6EFD",
+        confirmButtonColor: "#0D6EFD"
+    });
 });
 async function getDataOfDashboard() {
     try {
